@@ -6,5 +6,6 @@ sudo chown admin:admin /usr/local/jenkinsweb/*
 sudo chown admin:admin /usr/local/jenkinsweb
 
 #start jenkins on prot 9999
+cd /usr/local/jenkinsweb
 nohup java -Dhudson.model.DirectoryBrowserSupport.CSP= -jar jenkins.war --httpPort=9999  > jenkins.log 2>&1 &
 
