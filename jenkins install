@@ -2,6 +2,8 @@
 sudo mkdir /usr/local/jenkinsweb
 cd /usr/local/jenkinsweb
 sudo wget  http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
+sudo chown admin:admin /usr/local/jenkinsweb/*
+sudo chown admin:admin /usr/local/jenkinsweb
 
 #start jenkins on prot 9999
 nohup java -Dhudson.model.DirectoryBrowserSupport.CSP= -jar jenkins.war --httpPort=9999  > jenkins.log 2>&1 &
