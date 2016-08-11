@@ -1,1 +1,8 @@
-wget  http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
+#system env  :centos 6.5
+sudo mkdir /usr/local/jenkinsweb
+cd /usr/local/jenkinsweb
+sudo wget  http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
+
+#start jenkins on prot 9999
+JAVA -Dhudson.model.DirectoryBrowserSupport.CSP=    -jar jenkins.war --httpPort=9999
+
