@@ -3,6 +3,7 @@
 #@author  Robert Luo
 #@Date 20160811
 #system env  :centos 6.5
+#jenkins version : 2.7.2
 ###
 sudo mkdir /usr/local/jenkinsweb
 cd /usr/local/jenkinsweb
