@@ -1,4 +1,9 @@
+###
+#install jenkins and start jenkins process
+#@author  Robert Luo
+#@Date 20160811
 #system env  :centos 6.5
+###
 sudo mkdir /usr/local/jenkinsweb
 cd /usr/local/jenkinsweb
 sudo wget  http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
