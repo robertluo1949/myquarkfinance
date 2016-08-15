@@ -1,0 +1,85 @@
+###############
+###:@Target:    how to intall robotframwork and go to start 
+###:Author:     Robert Luo
+###:DATE :      20160811
+###:Email :     robert_luo1949@163.com
+###:Deploy env: Centos 6.6
+###:Other:      robotframwork version : 3.0
+###############
+####content structure###
+install  python 2.7.12
+install  setuptools  /  pip
+install  robotframwork 
+install  wxPython
+install  robotframwork-ride
+####content structure###
+
+##python  install
+##安装python需要的组件
+sudo yum groupinstall “Development tools”
+sudo yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-develtar xf Python-2.7.10.tar.xz
+
+sudo wget https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tar.xz
+tar xf Python-2.7.12.tar.xz
+cd Python-2.7.12 
+
+sudo su - root ###swith to root user, if not do this may face some  problems  about Permission delay
+./configure –prefix=/usr/local
+make && make install 
+make clean 
+make distclean
+
+#change system python command to 2.7 version
+mv /usr/bin/python /usr/bin/python2.6.6
+ln -s /usr/local/bin/python2.7 /usr/bin/python
+
+python --version
+  Python 2.7.12
+
+##modify python version within yum invoking python
+vi /usr/bin/yum
+  ##Before changed
+  #!/usr/bin/python
+  ##After changed
+  #!/usr/bin/python2.6
+  
+#参考 URL  
+#referance URL:http://www.linuxidc.com/Linux/2016-02/128452.htm
+
+
+##install  setuptools  /  pip
+sudo wget https://bootstrap.pypa.io/get-pip.py
+chmod +x  get-pip.py
+python get-pip.py
+##upgrade setuptools and pip
+pip install -U setuptools
+pip install -U pip
+## check pip version
+pip --version
+  pip 8.1.2 from /usr/local/lib/python2.7/site-packages (python 2.7)
+##参考
+referance URL:http://www.linuxidc.com/Linux/2016-05/131090.htm
+
+
+##install  robotframwork
+sudo su - root
+pip install robotframework
+
+
+
+##install  wxPython
+
+
+
+##install  robotframwork-ride
+pip install robotframework-ride
+
+##install robot library
+pip install robotframework-selenium2library
+pip install robotframework-databaselibrary
+
+
+
+
+
+
