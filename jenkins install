@@ -1,10 +1,19 @@
-###
-#install jenkins and start jenkins process
-#@author  Robert Luo
-#@Date 20160811
-#system env  :centos 6.5
-#jenkins version : 2.7.2
-###
+###############
+###:@Target:    how to intall jenkins and go to start 
+###:Author:     Robert Luo
+###:DATE :      20160811
+###:Email :     robert_luo1949@163.com
+###:Deploy env: Centos 6.6
+###:Other:      jenkins version : 2.7.2
+###############
+
+####content structure###
+download jenkins
+starting  jenkins with DirectoryBrowserSupport  and  9999 port 
+uninstall open-jdk 1.7.0
+install jdk 1.7.0_79
+configure user system enviroment
+####content structure###
 sudo mkdir /usr/local/jenkinsweb
 cd /usr/local/jenkinsweb
 sudo wget  http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
