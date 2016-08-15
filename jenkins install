@@ -15,11 +15,11 @@ sudo chown admin:admin /usr/local/jenkinsweb
 cd /usr/local/jenkinsweb
 nohup java -Dhudson.model.DirectoryBrowserSupport.CSP= -jar jenkins.war --httpPort=9999  > jenkins.log 2>&1 &
 
-###other  confirm 这不是必须的
+###other  confirm ,this is not necessary 这不是必须的
 #uninstall open jdk
- rpm -qa | grep java
-tzdata-java-2016e-1.el6.noarch
-java-1.7.0-openjdk-1.7.0.101-2.6.6.4.el6_8.x86_64
+rpm -qa | grep java
+  tzdata-java-2016e-1.el6.noarch
+  java-1.7.0-openjdk-1.7.0.101-2.6.6.4.el6_8.x86_64
 
 sudo rpm -e --nodeps java-1.7.0-openjdk-1.7.0.101-2.6.6.4.el6_8.x86_64
 sudo rpm -e --nodeps tzdata-java-2016e-1.el6.noarch
@@ -29,17 +29,16 @@ sudo rpm -e --nodeps tzdata-java-2016e-1.el6.noarch
 cd 
 vi .bash_profile
 #在文件最后一行添加（注意安装路径）：
-
-
-JAVA_HOME=/opt/jdk1.7.0_79
-JRE_HOME=$JAVA_HOME/jre
-CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-PATH=$PATH:$HOME/bin:$JAVA_HOME/bin:$JRE_HOME:$CLASSPATH:$OPENSSL/bin
-export PATH
+  JAVA_HOME=/opt/jdk1.7.0_79
+  JRE_HOME=$JAVA_HOME/jre
+  CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+  PATH=$PATH:$HOME/bin:$JAVA_HOME/bin:$JRE_HOME:$CLASSPATH:$OPENSSL/bin
+  export PATH
 
 #保存退出后，使其生效后即可：
 source /etc/profile
 java -version
-java version "1.7.0_79"
-Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
-Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
+  java version "1.7.0_79"
+  Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
+  Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
+ ###other  confirm ,this is ont necessary这不是必须的
