@@ -77,7 +77,8 @@ pip install robotframework-ride
 ##install robot library
 pip install robotframework-selenium2library
 pip install robotframework-databaselibrary
-
+##参考如下
+##referance URL: http://blog.csdn.net/youcharming/article/details/45341493
 
 
 
