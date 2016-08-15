@@ -33,4 +33,4 @@ Library           Collections
     \    DELETE ALL SESSIONS
     \    RUN KEYWORD IF    ${mobile}==${mobile_max}    Exit For Loop
 
-查询批量注册数据库结果
+
