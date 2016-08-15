@@ -63,7 +63,7 @@ referance URL:http://www.linuxidc.com/Linux/2016-05/131090.htm
 
 ##install  robotframwork
 sudo su - root
-pip install robotframework
+pip install -U robotframework
 
 
 
@@ -72,11 +72,13 @@ pip install robotframework
 
 
 ##install  robotframwork-ride
-pip install robotframework-ride
+pip install -U robotframework-ride
 
 ##install robot library
-pip install robotframework-selenium2library
-pip install robotframework-databaselibrary
+pip install -U robotframework-selenium2library
+pip install -U robotframework-databaselibrary
+pip install -U requests
+pip install -U robotframework-requests
 ##参考如下
 ##referance URL: http://blog.csdn.net/youcharming/article/details/45341493
 
