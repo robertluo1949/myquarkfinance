@@ -1,5 +1,4 @@
-﻿robotframework install
-
+robotframework install.bash
 
 
 ###############
