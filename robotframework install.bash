@@ -136,12 +136,13 @@ vi .bash_profile
 
 	export TNS_ADMIN=$ORACLE_HOME/NETWORK/admin
 	export PATH=$PATH:$ORACLE_HOME:$ORACLE_HOME/sdk
+source .bash_profile
 
 
 ##到/usr/local/instantclient_11_2目录下
 cd /usr/local/instantclient_11_2
-ln -fs libocci.dylib.11.1 libocci.dylib
-ln -fs libclntsh.so.11.1 libclntsh.so
+sudo ln -fs libocci.dylib.11.1 libocci.dylib
+sudo ln -fs libclntsh.so.11.1 libclntsh.so
 
 ##把sqlplus添加到bin中
 cd /usr/bin
