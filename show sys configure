@@ -1,0 +1,41 @@
+
+echo -e "\033[40;34m  " 
+echo -e "======OS info:=============="
+echo -e "\033[0m" 
+cat /etc/issue |grep Linux
+uname -a
+cat /etc/redhat-release
+
+
+
+echo -e "\033[40;34m  " 
+echo -e "\n==========CPU info========"
+echo -e "\033[0m" 
+echo -e "     == CPU Name========"
+cat /proc/cpuinfo |grep name |cut -f2 -d: |uniq -c
+echo -e "     ==Physical CPU ========"
+#cat /proc/cpuinfo |grep "physical id" |sort | uniq| wc -l
+cat /proc/cpuinfo |sort |grep "physical id" |uniq -c
+echo -e "     ==CPU core  ========"
+#cat /proc/cpuinfo |grep "cpu cores " | sort |uniq | wc -l
+ cat /proc/cpuinfo |grep "cpu cores"  |uniq -c  
+echo -e "     ==Logical CPU  ========"
+#cat /proc/cpuinfo| grep "processor" |sort | uniq -c | wc -l
+cat /proc/cpuinfo| grep "processor"  | uniq -c
+
+echo -e "\033[40;34m  " 
+echo -e "\n======Memory info:========="
+echo -e "\033[0m" 
+cat /proc/meminfo |grep MemTotal
+
+echo -e "\033[40;34m  " 
+echo -e "\n======Network  info:========="
+echo -e "\033[0m" 
+
+lspci |grep Ethernet
+
+echo -e "\033[40;34m  " 
+echo -e "\n======Disk  info:============"
+echo -e "\033[0m" 
+
+df -hl
