@@ -1,5 +1,4 @@
-robotframework install.bash
-
+#!/bin/bash
 
 ###############
 ###:@Target:    how to intall robotframwork and go to start 
