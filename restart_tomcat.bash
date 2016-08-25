@@ -1,52 +1,84 @@
-﻿#!/bin/sh
+#!/bin/bash
+
+###############
+###:@Target:    Delete  webapps  content and restart tomcat
+###:Author:     Robert Luo
+###:DATE :      20160823
+###:Email :     robert_luo1949@163.com
+###:Deploy env: Centos 6.6
+###:Other:      
+###############
+
+####@@@00 content structure###
+        ###@01 shutdown.sh
+        ###@02 count total  tomcat PID process 
+                ##pid = ps -ef |grep java | grep ${bin_dir} |awk '{print $2}' |wc -l
+                ##@02-01 for loop (i=0;i<count;i++)
+                ##@02-02 pid = ps -ef |grep java | grep ${bin_dir} |awk '{print $2}' | sed -n '$p'
+                ##@02-03    kill -9 $pid
+        ###@03 delete ROOT file and .war package
+        ###@04  count total  tomcat PID numbers
+                ##@04-01 if count number 0 0 startup.sh ,tomcat restart successful
+                ##@04-02 if count number > 0 echo tomcat restart failed ,echo pid
+        ###@05 add JAVA_HOME ,JRE_HOME to CATALINE.sh
+                ##JAVA environment on the top
+                # JAVA_HOME=/usr/local/jdk1.7.0_79
+                # JRE_HOME=/usr/local/jdk1.7.0_79/jre
+####content structure###
 
 
-#stop activity
-BIN_DIR="/usr/local/tomcat/bin"
-webapps_Dir="/usr/local/tomcat/webapps"
-cd $BIN_DIR
-echo "bin into dir $BIN_DIR"
+TOMCAT_DIR=/usr/local/tomcat
+WEBAPPS_DIR=/usr/local/tomcat/webapps
 
-##shutdown tomcat with shutdown.sh
-sh $BIN_DIR/shutdown.sh
-PIDS=`ps -f | grep java | grep "${BIN_DIR}" | awk '{print $2}'`
-echo "PID:  $PIDS"
+###@01 shutdown.sh
+cd $TOMCAT_DIR/bin
+./shutdown.sh
+wait $!
+###@02 count total  tomcat PID process 
+##pid = ps -ef |grep java | grep ${bin_dir} |awk '{print $2}' |wc -l
+count=`ps -ef |grep java |grep "${TOMCAT_DIR}/bin" |wc -l`
+#echo $count
+##@02-01 for loop (i=0;i<count;i++)
 
-##shutdown tomcat with  kill 
-COUNT=0
-while [ $COUNT -lt 1 ]; do
-    echo -e ".\c"
-    sleep 1
-    COUNT=`ps -f | grep java | grep "${BIN_DIR}" | awk '{print $2}' | wc -l`
-    if [ $COUNT -gt 0 ]; then
-        kill $PIDS
-    else
-        break
-    fi
+
+for((i=0;i< $count;i++))
+do
+       ##@02-02 capture second column with awk , capture last process number with sed
+       ##@02-02 PID=`ps -ef | grep java | grep "${TOMCAT_DIR}/bin" | awk '{print $2}' | sed -n '$p'`
+       ##ps -ef | grep java | grep '${TOMCAT_DIR}/bin' | awk '{print $2}' | sed -n '$p'| xargs kill -9
+       PID=`ps -ef | grep java | grep "${TOMCAT_DIR}/bin" | awk '{print $2}' |sed -n '$p' `
+       ps -ef|grep java | grep "${TOMCAT_DIR}/bin"  |sed -n '$p'|awk '{printf("kill -9 %s\n",$2)}' |sh
+       ##@02-03    kill -9 process number
+       echo "KILL -9  ${PID}"
+
 done
 
-wait $!
+###@03 delete ROOT file and .war package
+rm -rf $WEBAPPS_DIR/ROOT
+rm -f $WEBAPPS_DIR/ROOT.war
+###@04  count total  tomcat PID numbers
+COUNTS=`ps -ef |grep java |grep '${TOMCAT_DIR}/bin' |wc -l`
+##@04-01 if count number = 0, startup.sh ,tomcat restart successful
+echo "PIDS: ${COUNTS}"
+PID=`ps -f |grep java |grep "${TOMCAT_DIR}/bin" |awk '{print $2}' `
+if [ $COUNTS -eq 0 ]; then
+        echo -e "\033[40;34m" 
+        echo "Shutdown activity tomcat successful ***"
+        echo -e "\033[0m"
 
-echo -e "\033[40;34m  " 
-echo "PID ${PIDS}"
-echo "Shutdown activity tomcat successful ***"
-echo -e "\033[0m"
+        cd $TOMCAT_DIR/bin
+        ./startup.sh
+        PID=`ps -f |grep java |grep "${TOMCAT_DIR}/bin" |awk '{print $2}' `
+        wait $!
+        echo -e "\033[40;34m" 
+        echo "Start activity tomcat successful *** ***"
+        echo "PID: ${PID}"
+        echo -e "\033[0m"
+else
 
-
-#delete ROOT files
-rm -rf $webapps_Dir/ROOT
-rm $webapps_Dir/ROOT.war
-echo -e "\033[40;34m "
-echo "Remove ROOT files successful ***"
-echo -e "\033[0m"
-
-#start activity
-sh $BIN_DIR/startup.sh
-sleep 5
-PIDS=`ps -f | grep java | grep "${BIN_DIR}" | awk '{print $2}'`
-echo "PID:  $PIDS"
-
-wait $!
-echo -e "\033[40;34m "
-echo "Started activity tomcat successful ***"
-echo -e "\033[0m"
+        ##@04-02 if count number > 0 echo tomcat restart failed ,echo pid
+        echo -e "\033[40;34m" 
+        echo "PID: ${PID}"
+        echo "Shutdown activity tomcat filed ***"
+        echo -e "\033[0m"
+fi
