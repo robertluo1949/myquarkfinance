@@ -25,7 +25,7 @@ ls ~/.ssh
 ##可以看到两个密钥文件：id_rsa（私钥） id_rsa.pub（公钥）
 
 ##查看ssh服务是否启动,[tcp4 --LISTEN]，表示ssh服务正在监听
-netstat -tl |grep ssh 
+netstat -atl |grep ssh 
     tcp4       0      0  *.ssh                  *.*                    LISTEN     
     tcp6       0      0  *.ssh                                         *.*
 ###@02  send public key to MACHINE-B 
