@@ -15,7 +15,7 @@
         ###@03  configure SSH key on MACHINE-B
         ###@04  configure ssh config file on HINE-B
         ###@05  grant config files on CHINE-B
-
+        ###@06  check sshd connection status
 ####content structure###
 
 
