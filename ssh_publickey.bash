@@ -1,4 +1,4 @@
-﻿#!/bin/sh
+#!/bin/sh
 
 ###############
 ###:@Target:    use SSH public key access remote machine 
@@ -13,8 +13,8 @@
         ###@01  create public key from MACHINE-A
         ###@02  send public key to MACHINE-B 
         ###@03  configure SSH key on MACHINE-B
-        ###@04  configure ssh config file on MACHINE-B
-        ###@05  grant config files on MACHINE-B
+        ###@04  configure ssh config file on HINE-B
+        ###@05  grant config files on CHINE-B
 
 ####content structure###
 
@@ -22,10 +22,19 @@
 ###@01  create public key from MACHINE-A
 ssh-keygen -t rsa
 ls ~/.ssh
-#可以看到两个密钥文件：id_rsa（私钥） id_rsa.pub（公钥）
+##可以看到两个密钥文件：id_rsa（私钥） id_rsa.pub（公钥）
+
+##查看ssh服务是否启动,[tcp4 --LISTEN]，表示ssh服务正在监听
+netstat -tl |grep ssh 
+    tcp4       0      0  *.ssh                  *.*                    LISTEN     
+    tcp6       0      0  *.ssh                                         *.*
 ###@02  send public key to MACHINE-B 
 scp ~/.ssh/id_rsa.pub  jenkins@172.26.182.152:/home/jenkins/.ssh/
 scp ~/.ssh/id_rsa  jenkins@172.26.182.152:/home/jenkins/.ssh/
+#查看sshd_config
+vi /etc/sshd_config
+#RSAAuthentication yes
+PubkeyAuthentication yes
 ###@03  configure SSH key on MACHINE-B
 ##如果没有则添加
 touch authorized_keys
@@ -48,3 +57,11 @@ chmod 600 *
 -rw-------. 1 cmadmin cmadmin  140 Sep  5 13:52 config
 -rw-------. 1 cmadmin cmadmin  412 Sep  5 13:55 id_rsa.pub
 -rw-------. 1 cmadmin cmadmin  419 Sep  5 13:55 authorized_keys
+###@06  check sshd connection status
+
+~$ netstat -atl |grep ssh
+    tcp4       0      0  172.26.182.87.ssh      172.26.186.83.34288    ESTABLISHED
+    tcp4       0      0  172.26.182.87.ssh      172.26.186.83.34282    ESTABLISHED
+    tcp4       0      0  172.26.182.87.ssh      172.26.186.83.34281    ESTABLISHED
+    tcp4       0      0  *.ssh                  *.*                    LISTEN     
+    tcp6       0      0  *.ssh                                         *.*
