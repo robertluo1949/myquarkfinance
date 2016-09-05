@@ -15,7 +15,7 @@
         ###@03  configure SSH key on MACHINE-B
         ###@04  configure ssh config file on HINE-B
         ###@05  grant config files on CHINE-B
-        ###@06  check sshd connection status
+        ###@06  check sshd connection
 ####content structure###
 
 
@@ -57,7 +57,7 @@ chmod 600 *
 -rw-------. 1 cmadmin cmadmin  140 Sep  5 13:52 config
 -rw-------. 1 cmadmin cmadmin  412 Sep  5 13:55 id_rsa.pub
 -rw-------. 1 cmadmin cmadmin  419 Sep  5 13:55 authorized_keys
-###@06  check sshd connection status
+###@06  check sshd connection
 
 ~$ netstat -atl |grep ssh
     tcp4       0      0  172.26.182.87.ssh      172.26.186.83.34288    ESTABLISHED
