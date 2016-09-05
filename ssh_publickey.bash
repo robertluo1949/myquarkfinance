@@ -13,8 +13,8 @@
         ###@01  create public key from MACHINE-A
         ###@02  send public key to MACHINE-B 
         ###@03  configure SSH key on MACHINE-B
-        ###@04  configure ssh config file MACHINE-B
-        ###@05  grant config files MACHINE-B
+        ###@04  configure ssh config file on MACHINE-B
+        ###@05  grant config files on MACHINE-B
 
 ####content structure###
 
