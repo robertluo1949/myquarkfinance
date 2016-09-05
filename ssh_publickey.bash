@@ -25,6 +25,7 @@ ls ~/.ssh
 #可以看到两个密钥文件：id_rsa（私钥） id_rsa.pub（公钥）
 ###@02  send public key to MACHINE-B 
 scp ~/.ssh/id_rsa.pub  jenkins@172.26.182.152:/home/jenkins/.ssh/
+scp ~/.ssh/id_rsa  jenkins@172.26.182.152:/home/jenkins/.ssh/
 ###@03  configure SSH key on MACHINE-B
 ##如果没有则添加
 touch authorized_keys
