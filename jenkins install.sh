@@ -64,4 +64,8 @@ java -version
   java version "1.7.0_79"
   Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
   Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
+  
+ ###@04 install gradle2.3 
+  wget https://services.gradle.org/distributions/gradle-2.3-bin.zip
+  
  ###other  confirm ,this is ont necessary 如果已安装，这不是必须的
