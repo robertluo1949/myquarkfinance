@@ -91,6 +91,7 @@ wget http://download.oracle.com/otn/linux/instantclient/11204/instantclient-basi
 wget http://download.oracle.com/otn/linux/instantclient/11204/instantclient-sdk-linux.x64-11.2.0.4.0.zip
 wget http://download.oracle.com/otn/linux/instantclient/11204/instantclient-sqlplus-linux.x64-11.2.0.4.0.zip
 
+instantclient_11_2.part1.rar
 ##解压到/usr/local/instantclient_11_2
 unzip 
 ##增加TNS目录
@@ -118,6 +119,11 @@ mkdir NETWORK/admin
 	-rw-rw-r--. 1 cmadmin cmadmin       441 Aug 18 10:12 SQLPLUS_README
 	-rw-rw-r--. 1 cmadmin cmadmin    192365 Aug 25  2013 uidrvci
 	-rw-rw-r--. 1 cmadmin cmadmin     66779 Aug 25  2013 xstreams.jar
+
+##you also can download form my github repository.There are two rar packages.
+##[instantclient_11_2.part1.rar,instantclient_11_2.part2.rar]
+https://github.com/robertluo1949/myquarkfinance/tree/plugins
+
 
 
 ##增加环境变量
