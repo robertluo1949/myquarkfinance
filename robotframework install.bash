@@ -77,7 +77,9 @@ pip install -U robotframework
 ####@@@06 install robot library
 pip install -U robotframework-selenium2library
 pip install -U robotframework-databaselibrary
+pip install -U requests
 pip install -U robotframework-requests
+
 ##参考如下
 ##referance URL: http://blog.csdn.net/youcharming/article/details/45341493
 
