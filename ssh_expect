@@ -1,0 +1,40 @@
+#!/usr/bin/expect 
+
+###############
+###:@Target:    use SSH by expect 
+###:Author:     Robert Luo
+###:DATE :      20160905
+###:Email :     robert_luo1949@163.com
+###:Deploy env: Centos 6.6
+###:Other:      
+###############
+
+####@@@00 content structure###
+        ###@01  intall expect 
+        ###@02 edit sh script and chmod right
+        ###@03  get more detail from  follow website
+####content structure###
+###@01 confirm expect version or install expect
+expect -v 
+sudo yum install expect
+
+###@02 edit sh script and chmod right
+touch gosh.sh 
+chmod +x gosh.sh
+###@02 add script
+#!/usr/bin/expect 
+set timeout 5 
+spawn ssh -l jenkins 172.16.250.47
+expect {
+"*yes/no" { send "yes\r"; exp_continue }
+"*password:" { send "quark@2016\r"  }
+}
+expect "*#"
+send "sh /usr/local/tomcat/bin/restart_tomcat.sh\r"
+
+expect "*#"
+send "date\r"
+interact
+
+###@03  get more detail from  follow website
+http://www.cnblogs.com/iloveyoucc/archive/2012/05/11/2496433.html
