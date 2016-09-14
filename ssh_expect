@@ -35,6 +35,9 @@ send "sh /usr/local/tomcat/bin/restart_tomcat.sh\r"
 expect "*#"
 send "date\r"
 interact
-
+##"\r" :  press Enter key
+##"expect" : wait for string 
+## "send" : input command in terminal
+## interact : keep remote login status
 ###@03  get more detail from  follow website
 http://www.cnblogs.com/iloveyoucc/archive/2012/05/11/2496433.html
