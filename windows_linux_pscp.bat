@@ -7,7 +7,7 @@ if 1==0 (
 ###:DATE :      20160923
 ###:Email :     robert_luo1949@163.com
 ###:Deploy env: windows 7 professional
-###:Other:      jenkins version : 2.7.2
+###:Other:      pscp version : 0.67
 ###############
 
 ####content structure###
@@ -24,14 +24,15 @@ REM #@01 download pscp
 rem  goto following site and download [PSCP: pscp.exe] 
 rem  http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
 REM #@02 install pscp
-REM å¯æ‰§è¡Œç¨‹åºç›´æŽ¥ä½¿ç”¨
+REM ¿ÉÖ´ÐÐ³ÌÐòÖ±½ÓÊ¹ÓÃ
 echo  D:\Program Files\pscp\pscp.exe
 
 REM #@03 configure enviroment variable
-echo ç¼–è¾‘ç³»ç»ŸçŽ¯å¢ƒå˜é‡çš„PATHï¼Œåœ¨æœ€åŽå¢žåŠ â€œ;D:\Program Files\pscpâ€
+echo ±à¼­ÏµÍ³»·¾³±äÁ¿µÄPATH£¬ÔÚ×îºóÔö¼Ó¡°;D:\Program Files\pscp¡±
 
 
 REM #@04 start pscp
+::cmd.exe
 SET pscppath=D:\Program Files\pscp
 cd /d %pscppath%
 pscp.exe
@@ -41,3 +42,15 @@ REM print as follow if content
 
 REM #@05 get more
 echo http://www.zoneself.org/2013/03/27/content_2113.html
+pause
+echo 1¡¢°Ñ·þÎñÆ÷ÉÏµÄ/root/dirÄ¿Â¼È¡»Ø±¾µØ¡±C:\My Documents\data\¡±Ä¿Â¼
+echo C:\>pscp.exe -r root@192.168.32.50:/root/dir ¡°C:\My Documents\data\¡±
+pause
+echo 2¡¢°Ñ·þÎñÆ÷ÉÏµÄ/root/fileÎÄ¼þÈ¡»ØÀ´±¾µØµ±Ç°Ä¿Â¼
+echo C:\>pscp.exe root@192.168.32.50:/root/file .
+pause
+echo 3¡¢°Ñ±¾µØÄ¿Â¼dir¡¢ÎÄ¼þfile´«Êäµ½Linux·þÎñÆ÷µÄ/root/£¬²¢Ö¸¶¨·þÎñÆ÷¶Ë¿Ú2009
+echo C:\>pscp.exe -P 2009 -r dir file root@192.168.32.50:/root/
+pause 
+echo 4¡¢°Ñ±¾µØÎÄ¼þfile´«Êäµ½Linux·þÎñÆ÷µÄ/root/
+echo C:\>pscp.exe file 192.168.32.50:/root/
