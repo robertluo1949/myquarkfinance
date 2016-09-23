@@ -38,6 +38,6 @@ pscp.exe
 REM print as follow if content
 :: PuTTY Secure Copy client
 :: Release 0.67
-)
+
 REM #@05 get more
 echo http://www.zoneself.org/2013/03/27/content_2113.html
