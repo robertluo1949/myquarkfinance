@@ -24,16 +24,17 @@ REM #@01 download pscp
 rem  goto following site and download [PSCP: pscp.exe] 
 rem  http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
 REM #@02 install pscp
-REM ¿ÉÖ´ĞĞ³ÌĞòÖ±½ÓÊ¹ÓÃ
+REM å¯æ‰§è¡Œç¨‹åºç›´æ¥ä½¿ç”¨
 echo  D:\Program Files\pscp\pscp.exe
 
 REM #@03 configure enviroment variable
-echo ±à¼­ÏµÍ³»·¾³±äÁ¿µÄPATH£¬ÔÚ×îºóÔö¼Ó¡°;D:\Program Files\pscp¡±
+echo ç¼–è¾‘ç³»ç»Ÿç¯å¢ƒå˜é‡çš„PATHï¼Œåœ¨æœ€åå¢åŠ â€œ;D:\Program Files\pscpâ€
 
 
 REM #@04 start pscp
-cmd.exe
-pscp
+SET pscppath=D:\Program Files\pscp
+cd /d %pscppath%
+pscp.exe
 REM print as follow if content
 :: PuTTY Secure Copy client
 :: Release 0.67
