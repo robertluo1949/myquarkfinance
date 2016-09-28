@@ -69,6 +69,7 @@ referance URL:http://www.linuxidc.com/Linux/2016-05/131090.htm
 ####@@@03 install  robotframwork
 sudo su - root
 pip install -U robotframework
+##pip install robotframework==3.0 ##指定版本安装带上"=="
 
 
 ####@@@04 install  wxPython
@@ -85,6 +86,7 @@ pip install -U robotframework-requests
 
 ####@@@05 install  robotframwork-ride
 pip install -U robotframework-ride
+##pip install robotframework-ride==1.4.1 ##指定版本安装带上"=="
 
 
 ####@@@06 oracle_instantclient11.2.0.4.0
