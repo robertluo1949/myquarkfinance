@@ -29,6 +29,7 @@ sudo chown admin:admin /usr/local/jenkinsweb
 cd /usr/local/jenkinsweb
 nohup java -Dhudson.model.DirectoryBrowserSupport.CSP= -jar jenkins.war --httpPort=9999  > jenkins.log 2>&1 &
 ##-Dhudson.model.DirectoryBrowserSupport.CSP= 这个参数可以解决浏览器打不开robot报告的问题
+##System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")   ##用系统管理--脚本命令行执行
 
 ###other  confirm ,this is not necessary 这不是必须的
 ###@03 uninstall open jdk
