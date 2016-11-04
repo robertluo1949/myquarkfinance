@@ -6,7 +6,7 @@ Library           DatabaseLibrary
 Library           Collections
 Library           OperatingSystem
 Variables         rfvars.py    testenv_db    integer    mobile    loginPassword    ipaddress    advertiser
-...               identifies    LIST_mobile
+...               identifies    LIST_mobile    mobileend
 
 *** Test Cases ***
 C-01-01-Create_Session_API
@@ -14,15 +14,17 @@ C-01-01-Create_Session_API
     ...    建立与API服务器的session连接
     IMPORT RESOURCE    ${CURDIR}\\resourcefile.robot
     createSESSION_API    ${ipaddress}    ${mobileMORE}    ##${mobileMORE}是不限制使用的手机号
+    Comment    getTOKEN    ${mobile}    ${ipaddress}
 
 C-01-02-vialidateUser
     [Documentation]    验证该用户是否已注册
     ${lindex}    set variable    0
-    ${mobile}=    set variable    @{LIST_mobile}[${lindex}]
-    ${newmobile}=    set variable    @{LIST_mobile}[${lindex}]
-    : FOR    ${lindex}    IN RANGE    10
-    \    log    @{LIST_mobile}[${lindex}]
-    \    ${mobile}    set variable    @{LIST_mobile}[${lindex}]
+    : FOR    ${lindex}    IN RANGE    @{LIST_mobile}[2]
+    \    log    @{LIST_mobile}[2]
+    \    ${mobileend}    convert to Integer    @{LIST_mobile}[1]    ##把手机末尾4位数转换整形
+    \    ${tempmobileend}    evaluate    ${mobileend}+${lindex}    ##把手机尾号+循环次数=当前手机尾号
+    \    ${mobileend}    evaluate    "%04d" %${tempmobileend}    ##把手机尾号用0补全4位数
+    \    ${mobile}    evaluate    '@{LIST_mobile}[0]''${mobileend}'    ##新的手机号11位=手机前7位+手机尾号4位
     \    ${rData}=    Create Dictionary    mobile=${mobile}    advertiser=${advertiser}    type=1
     \    ${urladdress}=    set variable    /api/user/validateUser
     \    ${rcontent}    POST REQUEST    apisession    ${urladdress}    ${rData}    ##通过session 建立 POST 请求 ,请求地址urladdress, 带上body--rData
@@ -35,13 +37,15 @@ C-01-02-vialidateUser
     \    Continue For Loop If    ${R_value} == 3
     \    LOG    number.[url: ${urladdress}][data: ${rStatus}]
     \    RUN KEYWORD IF    '${R_value}' == '0'    set tags    ${mobile} is a correct mobile number.
-    \    ${newmobile}=    replace variables    @{LIST_mobile}[${lindex}]
+    \    ${newmobile}=    replace variables    ${mobile}
     \    set global variable    ${mobile}    ${newmobile}
     \    set suite variable    ${resCode}
     \    set suite variable    ${R_value}
     \    LOG    number${mobile}.[url: ${urladdress}][data: ${rStatus}]
     \    EXIT FOR LOOP
-    \    RUN KEYWORD IF    ${lindex} == 9    SET TAGS    You need update LIST_mobile.
+    \    ${maxindex}    evaluate    @{LIST_mobile}[2]-1
+    \    RUN KEYWORD IF    ${lindex} >= 20    SET TAGS    You need update LIST_mobile.
+    \    EXIT FOR LOOP IF    ${lindex} >= 100
     Should Be Equal    '${resCode}'    '0000'    ${mobile} : ${rStatus}
     Should Be Equal    '${R_value}'    '0'    ${mobile} : ${rStatus}
 
@@ -65,8 +69,8 @@ C-01-04-registerInfoAP
     [Documentation]    验证该用户是否能注册成功
     ${urladdress}=    set variable    /api/user/registerInfoFAP
     ${bizContent}    Create Dictionary    mobile=${mobile}    loginPassword=AEC60231D83FE6CF81444BC536596887    validateCode=999999    recommName=    resType=1
-    ${rData}=    Create Dictionary    timestamp=1574539564846    bizContent=${bizContent}    sign=38E37ADB3D422201197F77D608E2B399    signType=MD5    sysId=qAndroid
-    ...    appVersion=3.0.9    appBuildVersion=20160913    advertiser=${advertiser}    mac=3c:b6:b7:5c:c4:94    ip=172.26.183.211    iemi=860576034110310
+    ${rData}=    Create Dictionary    timestamp=1478140485378    bizContent=${bizContent}    sign=38E37ADB3D422201197F77D608E2B399    signType=MD5    sysId=qAndroid
+    ...    appVersion=3.1.1    appBuildVersion=20160913    advertiser=${advertiser}    mac=3c:b6:b7:5c:c4:94    ip=172.26.183.211    iemi=860576034110310
     ...    idfa=    authToken=null
     ${rcontent}    POST REQUEST    apisession    ${urladdress}    ${rData}
     ${content}    TO JSON    ${rcontent.content}
@@ -78,7 +82,31 @@ C-01-04-registerInfoAP
     Should Be Equal As Strings    ${resCode}    0000    ${resCode}${resMsg}
     Comment    DELETE ALL SESSIONS
 
-C-01-05-query_db
+C-01-05-TOKEN
+    [Documentation]    生成token值
+    IMPORT RESOURCE    ${CURDIR}\\resourcefile.robot
+    getTOKEN    ${mobile}    ${ipaddress}
+
+C-01-06-modGesturePwd
+    [Documentation]    设定手势密码为 7，如下图所示
+    ...    ***
+    ...    *
+    ...    *
+    IMPORT RESOURCE    ${CURDIR}\\resourcefile.robot
+    ${urladdress}=    set variable    /api/user/modGesturePwd
+    ${bizContent}    create dictionary
+    Comment    ${bizContent}    create dictionary    gesturePwd=A3680C6E501817BA33A063289A47BD63    ##gesturePwd参数不能通过bizContent参数来传递
+    ${rData}=    Create Dictionary    timestamp=1574539564846    bizContent=${bizContent}    gesturePwd=A3680C6E501817BA33A063289A47BD63    sign=B7F1295798E2EBC3742C6D36BA43B3C4    signType=MD5
+    ...    sysId=qAndroid    appVersion=3.1.1    appBuildVersion=20160913    advertiser=${advertiser}    mac=3c:b6:b7:5c:c4:94    ip=172.26.183.211
+    ...    iemi=860576034110310    idfa=    authToken=${access_token}
+    ${rcontent}    POST REQUEST    apisession    ${urladdress}    ${rData}
+    ${content}    TO JSON    ${rcontent.content}
+    ${resCode}    GET FROM DICTIONARY    ${content}    resCode
+    ${resMsg}    GET FROM DICTIONARY    ${content}    resMsg
+    RUN KEYWORD IF    ${resCode} == 0000    Set Tags    gesturePwd configured success. (7)
+    Should Be Equal As Strings    ${resCode}    0000    ${resCode}${resMsg}
+
+C-01-07-query_db
     [Documentation]    验证该用户信息是否插入数据库，app_user表
     Comment    ${ORA_SIT}    set variable    'MOBILEAPP2','mobileapp2','SIT'
     Comment    ${ORA_UAT}    set variable    'MOBILEAPP2','mobileapp2#123','UAT'

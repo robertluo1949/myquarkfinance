@@ -54,10 +54,13 @@ C-03-04-cardbind
     ${resCode}    set variable
     ${bank_card_no}    set variable
     ${urladdress}=    set variable    /api/bank/cardbind
-    : FOR    ${index}    IN RANGE    9
-    \    set to dictionary    ${bizContent}    bankCardNo    @{LIST_cardno}[${index}]
-    \    ${bank_card_no}    set variable    @{LIST_cardno}[${index}]
+    : FOR    ${index}    IN RANGE    @{LIST_cardno}[2]
+    \    ${bank_card_no_end}    convert to Integer    @{LIST_cardno}[1]    ##把手机末尾4位数转换整形
+    \    ${tem_bank_card_no_end}    evaluate    ${bank_card_no_end}+${index}    ##把手机尾号+循环次数=当前手机尾号
+    \    ${bank_card_no_end}    evaluate    "%04d" %${tem_bank_card_no_end}    ##把手机尾号用0补全4位数
+    \    ${bank_card_no}    evaluate    '@{LIST_cardno}[0]''${bank_card_no_end}'    ##新的手机号11位=手机前7位+手机尾号4位
     \    Comment    set to dictionary    ${bizContent}    bankMobile    @{LIST_mobile}[${index}]
+    \    set to dictionary    ${bizContent}    bankCardNo    ${bank_card_no}
     \    set to dictionary    ${rData}    bizContent    ${bizContent}
     \    ${rcontent}    POST REQUEST    apisession    ${urladdress}    ${rData}
     \    ${content}    TO JSON    ${rcontent.content}
@@ -66,15 +69,16 @@ C-03-04-cardbind
     \    set suite variable    ${bank_card_no}
     \    Comment    Set Suite Variable    ${resCode}
     \    COMMENT    602:验证码次数超限；603：验证码失效
-    \    run keyword if    ${index} == 9    SET TAGS    you need update cardID.
+    \    ${maxindex}    evaluate    @{LIST_cardno}[2]-1
     \    continue for loop if    ${resCode} == 602
     \    continue for loop if    ${resCode} == 0204
     \    continue for loop if    ${resCode} == 0225
     \    Comment    run keyword if    ${resCode} == 0109 \ \ and ${index} == 9    exit for loop
     \    continue for loop if    ${resCode} == 603
-    \    PASS Execution If    ${resCode} == 0000    SET TAGS    @{LIST_cardno}[${index}] is a correct cardno.
-    \    ${bank_card_no}    set variable    @{LIST_cardno}[${index}]
-    \    exit for loop
+    \    PASS Execution If    ${resCode} == 0000    SET TAGS    ${bank_card_no} is a correct cardno.
+    \    ${bank_card_no}    evaluate    '@{LIST_cardno}[0]''${bank_card_no_end}'
+    \    run keyword if    ${index} >=20    SET TAGS    you need update LIST_cardno
+    \    exit for loop IF    ${index} ==20
     Should Be Equal As Strings    ${resCode}    0000    ${resCode}${resMsg}
 
 C-03-05-query_db

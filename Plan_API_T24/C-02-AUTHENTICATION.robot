@@ -41,7 +41,7 @@ C-02-02-REALNAME
     \    ${code}=    GET FROM DICTIONARY    ${goData}    code
     \    ${resMsg}    GET FROM DICTIONARY    ${goData}    message
     \    set suite variable    ${code}
-    \    run keyword if    ${index} == 9    SET TAGS    you need update ID number.
+    \    run keyword if    ${index} >= 9    SET TAGS    you need update ID number.
     \    Continue For Loop If    '${code}'== 'USED'
     \    PASS Execution If    '${code}'== 'OK'    SET TAGS    ${ID} is a correct ID number.
     \    PASS Execution If    '${code}'== 'OK'    exit for loop
@@ -74,22 +74,22 @@ C-02-04-confirm_db
     Comment    ${mobile}    set variable    11122220063
     Comment    ${ID}    set variable    410104198006307614
     QUERYDB    ${testdb}    select mobile,identification_type,identification_no,identification_owner_name,real_name_time from app_user where mobile ='${mobile}' and identification_no='${ID}'
-    should be equal    '${result[0][0]}'     '${mobile}'    app_user表mobile 不一致 \ '${result[0][0]}'     ##核对app_user表mobile
-    should be equal    '${result[0][1]}'     '0'    app_user表identification_type 不一致 \ '${result[0][1]}'     ##核对app_user表identification_type
-    should be equal    '${result[0][2]}'     '${ID}'    app_user表identification_no 不一致 \ '${result[0][2]}'     ##核对app_user表identification_no
-    should be equal    '${result[0][3]}'     'AUTO'    app_user表identification_owner_name 不一致 \ '${result[0][3]}'     ##核对app_user表identification_owner_name
-    should not be equal    '${result[0][4]}'     'None'    app_user表real_name_time 不一致 \ '${result[0][4]}'     ##核对app_user表real_name_time
+    should be equal    '${result[0][0]}'    '${mobile}'    app_user表mobile 不一致 \ '${result[0][0]}'    ##核对app_user表mobile
+    should be equal    '${result[0][1]}'    '0'    app_user表identification_type 不一致 \ '${result[0][1]}'    ##核对app_user表identification_type
+    should be equal    '${result[0][2]}'    '${ID}'    app_user表identification_no 不一致 \ '${result[0][2]}'    ##核对app_user表identification_no
+    should be equal    '${result[0][3]}'    'AUTO'    app_user表identification_owner_name 不一致 \ '${result[0][3]}'    ##核对app_user表identification_owner_name
+    should not be equal    '${result[0][4]}'    'None'    app_user表real_name_time 不一致 \ '${result[0][4]}'    ##核对app_user表real_name_time
     QUERYDB    ${testdb}    select mobile,id_no,id_type,real_name,id from t_customer_basic where mobile ='${mobile}' and id_no='${ID}'
-    should be equal    '${result[0][0]}'     '${mobile}'    t_customer_basic表mobile 不一致 \ '${result[0][0]}'
-    should be equal    '${result[0][1]}'     '${ID}'    t_customer_basic表identification_type 不一致 \ '${result[0][1]}'
-    should be equal    '${result[0][2]}'     '0'    t_customer_basic表identification_no 不一致 \ '${result[0][2]}'
-    should be equal    '${result[0][3]}'     'AUTO'    t_customer_basic表identification_owner_name 不一致 \ '${result[0][3]}'
+    should be equal    '${result[0][0]}'    '${mobile}'    t_customer_basic表mobile 不一致 \ '${result[0][0]}'
+    should be equal    '${result[0][1]}'    '${ID}'    t_customer_basic表identification_type 不一致 \ '${result[0][1]}'
+    should be equal    '${result[0][2]}'    '0'    t_customer_basic表identification_no 不一致 \ '${result[0][2]}'
+    should be equal    '${result[0][3]}'    'AUTO'    t_customer_basic表identification_owner_name 不一致 \ '${result[0][3]}'
     ${CUSTOMER_CODE}    set Variable    ${result[0][4]}    ##取出t_customer_basic表的customer_code值
     QUERYDB    ${testdb}    select customer_code,id_no from t_customer_account where CUSTOMER_CODE IN (select CUSTOMER_CODE from t_customer_mobile WHERE mobile ='${mobile}')
-    should be equal    '${result[0][0]}'     '${CUSTOMER_CODE}'    t_customer_account表CUSTOMER_CODE 不一致 \ '${result[0][0]}'
-    should be equal    '${result[0][1]}'     '${ID}'    t_customer_account表id_no 不一致 \ '${result[0][1]}'
-    QUERYDB    ${testdb}    select mobile,id_type,id_no from t_customer_mobile where mobile ='${mobile}'    ##核对实名表t_customer_mobile    ##测试环境有误，id_no和id_type无法验证
-    run keyword if    '${result[0][1]}' =='None' or '${result[0][2]}' =='None'    Set Tags    t_customer_mobile 表测试环境无法验证id_type,id_no
+    should be equal    '${result[0][0]}'    '${CUSTOMER_CODE}'    t_customer_account表CUSTOMER_CODE 不一致 \ '${result[0][0]}'
+    should be equal    '${result[0][1]}'    '${ID}'    t_customer_account表id_no 不一致 \ '${result[0][1]}'
+    Comment    QUERYDB    ${testdb}    select mobile,id_type,id_no from t_customer_mobile where mobile ='${mobile}'    ##核对实名表t_customer_mobile    ##测试环境有误，id_no和id_type无法验证，用例已删除
+    Comment    run keyword if    '${result[0][1]}' =='None' or '${result[0][2]}' =='None'    Set Tags    t_customer_mobile 表测试环境无法验证id_type,id_no
     Comment    QUERYDB    ${testdb}    select identification_type,identification_no,identification_owner_name,last_update_time from real_name_log \ where IDENTIFICATION_NO ='${ID}'    ##核对实名表real_name_log    ##测试环境有误，无法验证
     QUERYDB    ${testdb}    select identification_type,identification_no,identification_owner_name,last_update_time from real_name_log where rownum <=1 \ order by last_update_time desc    ##核对实名表real_name_log    ##测试环境有误，无法验证
     run keyword Unless    '${result[0][0]}' =='0' and '${result[0][1]}' =='${ID}'    Set Tags    real_name_log 表测试环境无法验证last_update_time,create_time
