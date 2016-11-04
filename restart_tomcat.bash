@@ -66,6 +66,7 @@ rm -f $WEBAPPS_DIR/api.war $WEBAPPS_DIR/qf-app-bkend.war
 ###@03-04 delete qk_portal file and .war package
 #rm -rf $WEBAPPS_DIR/quark_drools
 #rm -f $WEBAPPS_DIR/quark_drools.war
+ls -l $WEBAPPS_DIR
 
 ###@04  count total  tomcat PID numbers
 COUNTS=`ps -ef |grep java |grep '${TOMCAT_DIR}/bin' |wc -l`
