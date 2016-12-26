@@ -24,17 +24,30 @@ chmod +x gosh.sh
 ###@02 add script
 #!/usr/bin/expect 
 set timeout 5 
-spawn ssh -l jenkins 172.16.250.47
+set USENAME "apiadmin"
+set PASSWD "Api@2016"
+
+spawn ssh -l ${USENAME} 172.26.186.63
+
 expect {
 "*yes/no" { send "yes\r"; exp_continue }
-"*password:" { send "robot1949\r"  }
+"*password:" { send "${PASSWD}\r"  }
+"*Password:" { send "${PASSWD}\r"  }
 }
+
 expect "*#"
 send "sh /usr/local/tomcat/bin/restart_tomcat.sh\r"
 
 expect "*#"
-send "date\r"
+send "ifconfig\r"
+
+expect "*#"
+send "ps -ef |grep tomcat \r"
+
+expect "*#"
+
 interact
+
 ##"\r" :  press Enter key
 ##"expect" : wait for string 
 ## "send" : input command in terminal
