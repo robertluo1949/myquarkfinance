@@ -63,6 +63,8 @@ done
 ###@03-03 delete api bkend file and .war package
 rm -rf $WEBAPPS_DIR/api $WEBAPPS_DIR/qf-app-bkend
 rm -f $WEBAPPS_DIR/api.war $WEBAPPS_DIR/qf-app-bkend.war
+rm -rf ${TOMCAT_DIR}/temp/*
+rm -rf ${TOMCAT_DIR}/work/Catalina/localhost/*
 ###@03-04 delete qk_portal file and .war package
 #rm -rf $WEBAPPS_DIR/quark_drools
 #rm -f $WEBAPPS_DIR/quark_drools.war
